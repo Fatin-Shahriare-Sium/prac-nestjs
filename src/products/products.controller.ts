@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { ProductsService } from './products.service'
 @Controller('products')
 export class ProductsController {
@@ -13,9 +13,15 @@ export class ProductsController {
 
         return this.productsService.getOneById(id)
     }
+    @Post('/create')
+    createOne(@Body() body: any) {
+        console.log(body)
+        return body
+    }
     @Get('/delete/:id')
     deleteOne(@Param('id', ParseIntPipe) id: number) {
         //ParseIntPipe will parse the coming string into number
         return this.productsService.deleteOne(id)
+
     }
 }
