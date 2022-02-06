@@ -15,8 +15,9 @@ export class ProductsController {
     }
     @Post('/create')
     createOne(@Body() body: any) {
-        console.log(body)
-        return body
+        console.log(body.price)
+        return this.productsService.createProduct(body.name, body.price)
+
     }
     @Get('/delete/:id')
     deleteOne(@Param('id', ParseIntPipe) id: number) {

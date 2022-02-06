@@ -13,6 +13,10 @@ export class ProductsService {
     getOneById(id: number): product {
         return this.product.find((sig, index) => { return sig.id == id })
     }
+    
+    createProduct(producrName: string, price: number): product[] {
+        return [...this.product, new newProduct(this.product.length + 1, producrName, price)]
+    }
     deleteOne(id: number): product[] | NotFoundException {
         let filteredProduct = this.product.filter((sig, index) => {
             return sig.id !== id
