@@ -1,4 +1,5 @@
-import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { productDto } from './product.dto';
 import { ProductsService } from './products.service'
 @Controller('products')
 export class ProductsController {
@@ -14,7 +15,12 @@ export class ProductsController {
         return this.productsService.getOneById(id)
     }
     @Post('/create')
-    createOne(@Body() body: any) {
+
+    @UsePipes(new ValidationPipe({
+        whitelist: true//it will remove unwanted property
+    }))
+    //curl -X POST -H "Content-Type:application/json" -d '{"myCreator":"Allah"}' http://localhost:5500/products/create
+    createOne(@Body() body: productDto) {
         console.log(body.price)
         return this.productsService.createProduct(body.name, body.price)
 
