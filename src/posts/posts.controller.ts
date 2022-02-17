@@ -15,4 +15,5 @@ export class postsController {
         console.log('postids', id);
         return await this.postsService.getSinglePost(id)
     }
+    
 }
