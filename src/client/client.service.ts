@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { changePasswordStatus, clientStatus } from './client.interface';
 let bcrypt = require('bcryptjs')
+
 enum Roles {
     superClient = "super client", //as like admin does
     basicClient = "basic client", //only sees post like ordinary people and edit their owns

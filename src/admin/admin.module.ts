@@ -11,7 +11,7 @@ import { AdminService } from './admin.service';
     signOptions: { expiresIn: '600000000000000s' },
   })],
   providers: [AdminService],
-  exports: [AdminService]
+  exports: [AdminService, MongooseModule]
 })
 
 export class AdminModule { }

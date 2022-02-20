@@ -13,6 +13,6 @@ import { ClientService } from './client.service';
   }),
   ],
   providers: [ClientService],
-  exports: [ClientService]
+  exports: [ClientService, MongooseModule]
 })
 export class ClientModule { }
