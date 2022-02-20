@@ -9,3 +9,11 @@ export class CreateAdminDto {
     @IsNotEmpty()
     password: any
 }
+
+export class LoginAdminDto{
+    @IsEmail()
+    email:string
+    @IsNotEmpty()
+    password:any
+} 
+

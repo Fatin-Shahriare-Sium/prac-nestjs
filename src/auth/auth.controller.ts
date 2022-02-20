@@ -1,6 +1,8 @@
-import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
-import { CreateAdminDto } from '../admin/admin.dto';
+import { Body, Controller, Get, Param, Post, Req, UsePipes, ValidationPipe } from '@nestjs/common';
+import { adminStatus, changePasswordStatus } from '../admin/admin.interface';
+import { CreateAdminDto, LoginAdminDto } from '../admin/admin.dto';
 import { AuthService } from './auth.service';
+
 
 @Controller('auth')
 export class AuthController {
@@ -9,21 +11,30 @@ export class AuthController {
     //curl -X POST -H "Content-Type:application/json" -d '{"name":"sium","password:123","email":"sium1206@gmail.com"}' http://localhost:5500/auth/admin/create
     //curl -X POST -H "Content-Type:application/json" -d '{"name":"sium","password":"123","email":"sium1206@gmail.com"}' http://localhost:5500/auth/admin/create
     @UsePipes(new ValidationPipe())
-    async createAdmin(@Body() body:  CreateAdminDto) {
+    async createAdmin(@Body() body: CreateAdminDto): Promise<adminStatus> {
         let { name, password, email } = body
         return this.authService.createAdmin(name, email, password)
+    }
+    @Post('/admin/login')
+    // curl -X POST -H "Content-Type:application/json" -d '{"email":"sium1206@gmail.com","password":"#allah"}' http://localhost:5500/auth/admin/login
+    @UsePipes(new ValidationPipe())
+    async loginAdmin(@Body() body: LoginAdminDto): Promise<adminStatus> {
+        return this.authService.loginAdmin(body.email, body.password)
     }
     @Get('/admin/find/:id')
     async findAdmin(@Param('id') id: string) {
         //id-620deda047585faa83fba515
         console.log(id);
-        
+
         return this.authService.findAdmin(id)
     }
     @Post('/admin/change-password')
-    async adminChangePassword(@Body() body: any) {
-        return this.authService.changePass(body.id, body.password)
+    //curl -X POST -H "Content-Type:application/json" -d '{"id":"620deda047585faa83fba515","oldPassword":"#allahisalmighty","password":"#allah"}' http://localhost:5500/auth/admin/change-password
+    async adminChangePassword(@Body('id') id: string, @Body('oldPassword') oldPassword: any, @Body('password') password: any): Promise<changePasswordStatus> {
+        //console.log(oldPassword, password);
+        return this.authService.changePass(id, oldPassword, password)
     }
-    
+
 }
+
 
