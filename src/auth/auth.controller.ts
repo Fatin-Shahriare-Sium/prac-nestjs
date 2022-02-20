@@ -2,6 +2,8 @@ import { Body, Controller, Get, Param, Post, Req, UsePipes, ValidationPipe } fro
 import { adminStatus, changePasswordStatus } from '../admin/admin.interface';
 import { CreateAdminDto, LoginAdminDto } from '../admin/admin.dto';
 import { AuthService } from './auth.service';
+import { CreateClientDto } from '../client/client.dto';
+import { clientStatus } from '../client/client.interface';
 
 
 @Controller('auth')
@@ -35,6 +37,15 @@ export class AuthController {
         return this.authService.changePass(id, oldPassword, password)
     }
 
+    //client part
+
+    @Post('/client/create')
+    // curl -X POST -H "Content-Type:application/json" -d '{"name":"sium","password":"123","email":"sium1206@gmail.com"}' http://localhost:5500/auth/client/create
+    @UsePipes(new ValidationPipe())
+    async createClient(@Body() body: CreateClientDto): Promise<clientStatus> {
+        console.log(body);
+        return this.authService.createClient(body.name, body.email, body.password)
+    }
 }
 
 

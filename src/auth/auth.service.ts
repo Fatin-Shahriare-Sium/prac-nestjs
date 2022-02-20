@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { ClientService } from '../client/client.service';
 import { adminStatus, changePasswordStatus } from '../admin/admin.interface';
 import { AdminService } from '../admin/admin.service';
+import { clientStatus } from '../client/client.interface';
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly adminService: AdminService) { }
+    constructor(private readonly adminService: AdminService,
+        private readonly clientService: ClientService
+    ) { }
 
     async createAdmin(name: string, email: string, password: string): Promise<adminStatus> {
         return this.adminService.createAdmin(name, email, password)
@@ -20,6 +24,12 @@ export class AuthService {
     }
     async changePass(id: string, oldPassword: any, password: any): Promise<changePasswordStatus> {
         return this.adminService.changePassword(id, oldPassword, password)
+    }
+
+    //client part
+
+    async createClient(name, email, password): Promise<clientStatus> {
+        return this.clientService.createClient(name, email, password)
     }
 
 }
