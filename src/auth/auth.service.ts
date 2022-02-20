@@ -28,8 +28,16 @@ export class AuthService {
 
     //client part
 
-    async createClient(name, email, password): Promise<clientStatus> {
+    async createClient(name: string, email: string, password: any): Promise<clientStatus> {
         return this.clientService.createClient(name, email, password)
+    }
+
+    async clientLogin(email: string, password: any): Promise<clientStatus> {
+        return this.clientService.clientLogin(email, password)
+    }
+
+    async changeClientPassword(email: string, oldPassword: any, password: any): Promise<changePasswordStatus> {
+        return this.clientService.changePassword(email, oldPassword, password)
     }
 
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { clientStatus } from './client.interface';
+import { changePasswordStatus, clientStatus } from './client.interface';
 let bcrypt = require('bcryptjs')
 enum Roles {
     superClient = "super client", //as like admin does
@@ -38,6 +38,40 @@ export class ClientService {
             ...payloadx,
             token: tokenx,
             msg: "Successfully,created an account",
+            success: true
+        }
+    }
+    async clientLogin(email: string, password: any): Promise<clientStatus> {
+        let clientx = await this.clientModel.findOne({ email })
+        if (!clientx) return { msg: 'Invalid credentials', success: false }
+
+        let isMatch = await bcrypt.compare(password, clientx.password)
+        if (!isMatch) return { msg: 'Invalid credentials', success: false }
+        let payloadx = {
+            id: clientx._id,
+            email
+        }
+        let tokenx = await this.jwtService.sign(payloadx)
+        return {
+            ...payloadx,
+            token: tokenx,
+            msg: 'Successfully,login to your account',
+            success: true
+        }
+
+    }
+    async changePassword(email: string, oldPassword: string, password: string): Promise<changePasswordStatus> {
+        let clientx = await this.clientModel.findOne({ email })
+        if (!clientx) return { msg: 'Invalid credentials', success: false }
+
+        let isMatch = await bcrypt.compare(oldPassword, clientx.password)
+        if (!isMatch) return { msg: 'Invalid credentials', success: false }
+
+        let hashedPass = await bcrypt.hash(password, 7)
+        await this.clientModel.findOneAndUpdate({ email }, { $set: { password: hashedPass } })
+
+        return {
+            msg: 'Successfully,updated your password',
             success: true
         }
     }
