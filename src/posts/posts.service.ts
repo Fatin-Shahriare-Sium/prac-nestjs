@@ -5,7 +5,7 @@ import { Model } from "mongoose";
 import { post } from "./post.interface";
 
 @Injectable()
-export class postsService {
+export class PostsService {
     constructor(@InjectModel('Post') private postModel: Model<any>) { }
 
     async getAllPosts(): Promise<post[]> {

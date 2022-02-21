@@ -1,10 +1,10 @@
 import { Controller, Get, Param } from "@nestjs/common";
 import { post } from "./post.interface";
-import { postsService } from "./posts.service";
+import { PostsService } from "./posts.service";
 
 @Controller('posts')
 export class postsController {
-    constructor(private postsService: postsService) { }
+    constructor(private postsService: PostsService) { }
 
     @Get()
     async getAllPost(): Promise<post[]> {
@@ -15,5 +15,5 @@ export class postsController {
         console.log('postids', id);
         return await this.postsService.getSinglePost(id)
     }
-    
+
 }

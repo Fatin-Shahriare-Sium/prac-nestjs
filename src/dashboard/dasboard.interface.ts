@@ -3,5 +3,5 @@ export interface dasboardLoginStatus {
     email?: string,
     token?: string,
     msg: string,
-    success: string
+    success: boolean
 }
