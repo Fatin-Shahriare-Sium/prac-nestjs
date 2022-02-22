@@ -13,3 +13,8 @@ export interface post {
     author: [string]
 
 }
+
+export interface deleteStatus {
+    msg: string,
+    success: boolean
+}

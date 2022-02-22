@@ -41,7 +41,8 @@ export class DashboardService {
 
             let payloadx = {
                 id: inAdmin._id,
-                email
+                email,
+                role: 'admin'
             }
             let tokenx = await this.jwtService.sign(payloadx)
 
@@ -65,7 +66,8 @@ export class DashboardService {
 
             let payloadx = {
                 id: inClient._id,
-                email
+                email,
+                role: inClient.role
             }
             let tokenx = await this.jwtService.sign(payloadx)
 
@@ -82,5 +84,15 @@ export class DashboardService {
 
     async getAllPosts(): Promise<post[]> {
         return this.postsService.getAllPosts()
+    }
+    async deletePost(id:string){
+        return this.postsService.deleteSinglePost(id)
+    }
+    async getAllUsers() {
+        let usersx = await this.clientModel.find()
+        return usersx
+    }
+    async deleteUser(id: string) {
+        await this.clientModel.deleteOne({ _id: id })
     }
 }
