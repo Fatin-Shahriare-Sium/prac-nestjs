@@ -40,20 +40,20 @@ export class AuthController {
     //client part
 
     @Post('/client/create')
-    //curl -X POST -H "Content-Type:application/json" -d '{"name":"sium","password":"123","email":"sium1206@gmail.com"}' http://localhost:5500/auth/client/create
+    // curl -X POST -H "Content-Type:application/json" -d '{"name":"sium","password":"123","email":"sium1207@gmail.com"}' http://localhost:5500/auth/client/create
     @UsePipes(new ValidationPipe())
-    async createClient(@Body() body: CreateClientDto): Promise < clientStatus > {
+    async createClient(@Body() body: CreateClientDto): Promise<clientStatus> {
         console.log(body);
         return this.authService.createClient(body.name, body.email, body.password)
     }
     @Post('/client/login')
     //curl -X POST -H "Content-Type:application/json" -d '{"email":"sium1206@gmail.com","password":"#allah"}' http://localhost:5500/auth/client/login
-    async clientLogin(@Body() body:LoginClientDto):Promise<clientStatus>{
-        return this.authService.clientLogin(body.email,body.password)
+    async clientLogin(@Body() body: LoginClientDto): Promise<clientStatus> {
+        return this.authService.clientLogin(body.email, body.password)
     }
     @Post('/client/change-password')
     //curl -X POST -H "Content-Type:application/json" -d '{"password":"sium","oldPassword":"123rrr","email":"sium1206@gmail.com"}' http://localhost:5500/auth/client/change-password
-    async changeClientPassword(@Body() body: any): Promise < changePasswordStatus > {
+    async changeClientPassword(@Body() body: any): Promise<changePasswordStatus> {
         return this.authService.changeClientPassword(body.email, body.oldPassword, body.password)
     }
 }

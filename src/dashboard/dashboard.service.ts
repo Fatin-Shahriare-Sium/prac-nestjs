@@ -85,7 +85,7 @@ export class DashboardService {
     async getAllPosts(): Promise<post[]> {
         return this.postsService.getAllPosts()
     }
-    async deletePost(id:string){
+    async deletePost(id: string) {
         return this.postsService.deleteSinglePost(id)
     }
     async getAllUsers() {
@@ -94,5 +94,24 @@ export class DashboardService {
     }
     async deleteUser(id: string) {
         await this.clientModel.deleteOne({ _id: id })
+    }
+
+    async changeUserRole(userId: string, role: string) {
+        //console.log(role);
+        //console.log('Roles[role]', Roles[role]);
+        //we are trying to see is the coming role is in the enum 
+        if (role in Roles) {
+            console.log('role has role');
+            let clientx = await this.clientModel.findOneAndUpdate({ _id: userId }, { $set: { role: Roles[role] } })
+            return {
+                msg: `Successfully,updated user role from ${clientx.role} to ${Roles[role]}`,
+                success: true
+            }
+        }
+        return {
+            msg: 'Your role is not in options,try again',
+            success: false
+        }
+
     }
 }

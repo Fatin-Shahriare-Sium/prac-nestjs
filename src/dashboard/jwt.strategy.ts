@@ -15,6 +15,12 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
   async validate(payload: any) {
     console.log('payload', payload);
+    if (!payload.role) {
+      throw new UnauthorizedException({
+        msg: "You have not permissions",
+        success: false
+      })
+    }
     return { userId: payload.id, useremail: payload.email, role: payload.role };
   }
 }
