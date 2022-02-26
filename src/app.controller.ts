@@ -7,8 +7,6 @@ export class AppController {
   constructor(private readonly appService: AppService) { }
 
   @Get()
-  @SetMetadata('myCreator', 'Allah')
-  @UseGuards(RoleGuard)
   getHello(): string {
     return this.appService.getHello();
   };
